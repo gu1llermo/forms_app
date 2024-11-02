@@ -10,9 +10,11 @@ part 'register_state.dart';
 class RegisterCubit extends Cubit<RegisterFormState> {
   RegisterCubit() : super(const RegisterFormState());
 
+  bool get isPosting => state.formStatus == FormStatus.posting;
+
   void onSubmit() {
     emit(state.copyWith(
-      formStatus: FormStatus.validating,
+      formStatus: FormStatus.posting,
       username: Username.dirty(state.username.value),
       password: Password.dirty(state.password.value),
       email: Email.dirty(state.email.value),
@@ -27,8 +29,10 @@ class RegisterCubit extends Cubit<RegisterFormState> {
 
   void usernameChanged(String value) {
     final username = Username.dirty(value);
+
     emit(state.copyWith(
       username: username,
+      formStatus: FormStatus.invalid,
       isValid: Formz.validate([username, state.password, state.email]),
     ));
   }
@@ -38,6 +42,7 @@ class RegisterCubit extends Cubit<RegisterFormState> {
 
     emit(state.copyWith(
       email: email,
+      formStatus: FormStatus.invalid,
       isValid: Formz.validate([email, state.username, state.password]),
     ));
   }
@@ -46,6 +51,7 @@ class RegisterCubit extends Cubit<RegisterFormState> {
     final password = Password.dirty(value);
     emit(state.copyWith(
       password: password,
+      formStatus: FormStatus.invalid,
       isValid: Formz.validate([password, state.username, state.email]),
     ));
   }

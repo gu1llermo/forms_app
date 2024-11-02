@@ -52,6 +52,7 @@ class _RegisterForm extends StatelessWidget {
     final username = registerCubit.state.username;
     final password = registerCubit.state.password;
     final email = registerCubit.state.email;
+    final isPosting = registerCubit.isPosting;
 
     return Form(
       child: Column(
@@ -59,20 +60,20 @@ class _RegisterForm extends StatelessWidget {
           CustomTextFormField(
             label: 'Nombre de usuario',
             onChanged: registerCubit.usernameChanged,
-            errorMessage: username.errorMessage,
+            errorMessage: isPosting ? username.errorMessage : null,
           ),
           const SizedBox(height: 10),
           CustomTextFormField(
             label: 'Correo electrónico',
             onChanged: registerCubit.emailChanged,
-            errorMessage: email.errorMessage,
+            errorMessage: isPosting ? email.errorMessage : null,
           ),
           const SizedBox(height: 10),
           CustomTextFormField(
             label: 'Contraseña',
             obscureText: true,
             onChanged: registerCubit.passwordChanged,
-            errorMessage: password.errorMessage,
+            errorMessage: isPosting ? password.errorMessage : null,
           ),
           const SizedBox(height: 20),
           FilledButton.tonalIcon(
